@@ -4,6 +4,7 @@ var $people = $("input[name=people]");
 var $resultsValues = $(".results__values");
 var $totalLightBulbsOn = $("#total-light-bulbs-on");
 var $specificLightBulbsOn = $("#specific-light-bulbs-on");
+var $body = $("body");
 
 $(function() {
 	//hide results when changing values
@@ -14,6 +15,8 @@ $(function() {
 	//process user input
 	$("form").submit(function(e) {
 		e.preventDefault();
+		
+		if ($body.hasClass("loading")) return;
 		
 		var lightBulbs = Number($lightBulbs.val());
 		var people = Number($people.val());
@@ -31,6 +34,8 @@ $(function() {
 			error = true;
 		}
 		if (error) return;
+		
+		$body.addClass("loading");
 		
 		//determine which light bulbs are on
 		var lightBulbsArray = [];
@@ -54,8 +59,10 @@ $(function() {
 			}
 		}
 		
+		$body.removeClass("loading");
+		
 		//output results
-		$totalLightBulbsOn.html(lightBulbsOn.length);
+		$totalLightBulbsOn.html(formatNumberWithCommas(lightBulbsOn.length));
 		$specificLightBulbsOn.html(lightBulbsOn.join(', '));
 		$resultsValues.show();
 		
@@ -72,3 +79,9 @@ Number.isInteger = Number.isInteger || function(value) {
 		isFinite(value) && 
 		Math.floor(value) === value;
 };
+
+function formatNumberWithCommas(n) {
+	n = String(n);
+	n = n.replace(",", "");
+	return n.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+}
