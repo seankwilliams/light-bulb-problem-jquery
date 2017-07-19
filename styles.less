@@ -14,8 +14,12 @@ body {
 * {
 	box-sizing: border-box;
 }
-input.error {
-	border-color: Red;
+input {
+	border-color: #000;
+
+	&.error {
+		border-color: Red;
+	}
 }
 
 
@@ -46,7 +50,8 @@ input.error {
 		height: 50px;
 		font-size: 20px;
 		padding: 10px 0px 10px 20px;
-		border: 1px solid #000;
+		border-width: 1px;
+		border-style: solid;
 		margin: 8px 0 16px;
 	}
 	input[type="submit"] {
